@@ -13,23 +13,22 @@ public class SocketService {
     OutputStream out = null;
 
     InputStream in = null;
-    public void connect(String ip, String port) throws IOException {
+    public void connect(String ip, String port) throws Exception {
         try {
             echoSocket = new Socket(ip, parseInt(port));
             out = echoSocket.getOutputStream();
             in = echoSocket.getInputStream();
 
         } catch (UnknownHostException e) {
-            System.err.println("Don't know about host: " + ip);
-            throw e;
+            throw new Exception("Don't know about host: " + ip);
         } catch (IOException e) {
-            System.err.println("Couldn't get I/O for "
+            throw new Exception("Couldn't get I/O for "
                     + "the connection to: " + ip);
-            throw e;
         }
     }
 
-    public void send(String message) {
+    public String send(String message) {
+        String response = null;
         try {
             PrintWriter writer = new PrintWriter(out, true);
             BufferedReader reader = new BufferedReader(new InputStreamReader(in));
@@ -38,15 +37,19 @@ public class SocketService {
             writer.println(message);
 
             // Receive the response from the server
-            String response = reader.readLine();
+            response = reader.readLine();
             System.out.println("Received response from server: " + response);
 
-            // Close the streams and socket
+            // Close the streams
             reader.close();
             writer.close();
+
         } catch (IOException e) {
+            e.printStackTrace();
             HelperService.showErrorMessage(e.getMessage());
         }
+
+        return response;
     }
 
     public void close() throws IOException {

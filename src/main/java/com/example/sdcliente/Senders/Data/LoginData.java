@@ -2,6 +2,7 @@ package com.example.sdcliente.Senders.Data;
 
 import com.example.sdcliente.Helpers.Validators;
 import com.example.sdcliente.Models.Validation.ValidationException;
+import org.apache.commons.codec.digest.DigestUtils;
 
 public class LoginData implements BaseData {
     private String email;
@@ -9,7 +10,7 @@ public class LoginData implements BaseData {
 
     public LoginData(String email, String password) {
         this.email = email;
-        this.password = password;
+        this.password = DigestUtils.md5Hex(password).toUpperCase();
     }
 
     public LoginData () {}

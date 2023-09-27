@@ -43,8 +43,9 @@ public class InitialController {
                     try {
                         Main.getSocketService().connect(ip, port);
                         openLogin();
-                    } catch (IOException ex) {
+                    } catch (Exception ex) {
                         HelperService.showErrorMessage(ex.getMessage());
+                        openDialog();
                     }
                 } else {
                     openDialog();
