@@ -11,5 +11,7 @@ module com.example.sdcliente {
     opens com.example.sdcliente.Controllers to javafx.fxml;
     exports com.example.sdcliente.Senders.Data to com.fasterxml.jackson.databind;
     exports com.example.sdcliente.Senders to com.fasterxml.jackson.databind;
+    exports com.example.sdcliente.Receivers.Data to com.fasterxml.jackson.databind;
+    exports com.example.sdcliente.Receivers to com.fasterxml.jackson.databind;
     exports com.example.sdcliente;
 }

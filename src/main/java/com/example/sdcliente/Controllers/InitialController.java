@@ -4,6 +4,7 @@ import com.example.sdcliente.Helpers.HelperService;
 import com.example.sdcliente.Main;
 import com.example.sdcliente.Models.Results.ConnectModalResult;
 import com.example.sdcliente.Models.Validation.ValidationException;
+import com.example.sdcliente.Services.TokenService;
 import javafx.animation.PauseTransition;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -42,7 +43,14 @@ public class InitialController {
                     String port = result.getPort();
                     try {
                         Main.getSocketService().connect(ip, port);
-                        openLogin();
+
+                        String token = TokenService.getJwtToken();
+
+                        if (token != null) {
+                            openMain();
+                        } else {
+                            openLogin();
+                        }
                     } catch (Exception ex) {
                         HelperService.showErrorMessage(ex.getMessage());
                         openDialog();
@@ -79,5 +87,25 @@ public class InitialController {
 
     public void setStage(Stage stage) {
         this.stage = stage;
+    }
+
+    public void openMain() {
+        Stage stage = new Stage();
+
+        FXMLLoader loader = new FXMLLoader(Main.class.getResource("main-menu.fxml"));
+
+        try {
+            Parent root = loader.load();
+
+            Scene scene = new Scene(root);
+            stage.setTitle("Main");
+            stage.setScene(scene);
+            stage.show();
+
+            this.stage.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+            HelperService.showErrorMessage(e.getMessage());
+        }
     }
 }

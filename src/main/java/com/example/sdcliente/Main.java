@@ -4,6 +4,7 @@ import com.example.sdcliente.Controllers.ConnectDialogController;
 import com.example.sdcliente.Controllers.InitialController;
 import com.example.sdcliente.Models.Results.ConnectModalResult;
 import com.example.sdcliente.Services.SocketService;
+import com.example.sdcliente.Services.TokenService;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -15,6 +16,8 @@ import java.io.IOException;
 
 public class Main extends Application {
     private static SocketService socketService = new SocketService();
+
+    private final TokenService tokenService = new TokenService();
 
     @Override
     public void start(Stage stage) throws IOException {

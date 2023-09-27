@@ -25,15 +25,18 @@ public class LoginSender extends BaseSender implements IBaseSender {
     }
 
     @Override
-    public void send() {
+    public String send() {
+        String response = null;
         try {
             if (this.validate()) {
                 SocketService socket = Main.getSocketService();
 
-                socket.send(this.toJson());
+                response = socket.send(this.toJson());
             }
         } catch (ValidationException | JsonProcessingException e) {
             HelperService.showErrorMessage(e.getMessage());
         }
+
+        return response;
     }
 }
