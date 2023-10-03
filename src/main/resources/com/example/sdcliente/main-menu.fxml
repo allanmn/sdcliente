@@ -15,6 +15,11 @@
                     <MenuItem onAction="#openUsers" text="Listar" />
                 </items>
             </Menu>
+         <Menu text="Usuário">
+            <items>
+               <MenuItem fx:id="logoutBtn" onAction="#logout" text="Sair" />
+            </items>
+         </Menu>
         </menus>
     </MenuBar>
 

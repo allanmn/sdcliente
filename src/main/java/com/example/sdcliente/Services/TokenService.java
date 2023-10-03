@@ -26,4 +26,14 @@ public class TokenService {
         }
         return null;
     }
+
+    public static boolean eraseJwtToken() {
+        File jwt = new File(FILE_PATH);
+
+        if (jwt.exists()) {
+            return jwt.delete();
+        }
+
+        return false;
+    }
 }

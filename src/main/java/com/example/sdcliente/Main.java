@@ -19,14 +19,20 @@ public class Main extends Application {
 
     private final TokenService tokenService = new TokenService();
 
+    private Stage primaryStage = null;
+
+    private static Main instance;
+
     @Override
     public void start(Stage stage) throws IOException {
+        instance = this;
+        primaryStage = stage;
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("initial.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 320, 240);
-        stage.setTitle("CONECTANDO...");
-        stage.setScene(scene);
-        stage.show();
-        ((InitialController)fxmlLoader.getController()).setStage(stage);
+        primaryStage.setTitle("CONECTANDO...");
+        primaryStage.setScene(scene);
+        primaryStage.show();
+        ((InitialController)fxmlLoader.getController()).setStage(primaryStage);
     }
 
     public static void main(String[] args) {
@@ -57,7 +63,17 @@ public class Main extends Application {
         }
     }
 
+    public void restart() throws IOException {
+        primaryStage.close();
+
+        this.start(primaryStage);
+    }
+
     public static SocketService getSocketService() {
         return socketService;
+    }
+
+    public static Main getInstance() {
+        return instance;
     }
 }
