@@ -7,6 +7,9 @@ import com.example.sdcliente.Senders.Data.LogoutData;
 import com.example.sdcliente.Senders.LogoutSender;
 import com.example.sdcliente.Services.TokenService;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.MenuItem;
 import javafx.stage.Stage;
 
@@ -19,7 +22,22 @@ public class MainMenuController {
 
     @FXML
     public void openCreateUser() {
+        Stage stage = new Stage();
 
+        FXMLLoader loader = new FXMLLoader(Main.class.getResource("create-user.fxml"));
+
+        try {
+            Parent root = loader.load();
+
+            Scene scene = new Scene(root);
+            stage.setTitle("Criar usuário");
+            stage.setScene(scene);
+
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            HelperService.showErrorMessage(e.getMessage());
+        }
     }
 
     @FXML
@@ -50,6 +68,4 @@ public class MainMenuController {
             }
         }
     }
-
-
 }

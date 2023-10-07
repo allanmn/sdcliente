@@ -66,6 +66,8 @@ public class Main extends Application {
     public void restart() throws IOException {
         primaryStage.close();
 
+        TokenService.eraseJwtToken();
+
         this.start(primaryStage);
     }
 

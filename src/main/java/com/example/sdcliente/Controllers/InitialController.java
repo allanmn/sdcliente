@@ -44,13 +44,7 @@ public class InitialController {
                     try {
                         Main.getSocketService().connect(ip, port);
 
-                        String token = TokenService.getJwtToken();
-
-                        if (token != null) {
-                            openMain();
-                        } else {
-                            openLogin();
-                        }
+                        openLogin();
                     } catch (Exception ex) {
                         HelperService.showErrorMessage(ex.getMessage());
                         openDialog();
@@ -87,25 +81,5 @@ public class InitialController {
 
     public void setStage(Stage stage) {
         this.stage = stage;
-    }
-
-    public void openMain() {
-        Stage stage = new Stage();
-
-        FXMLLoader loader = new FXMLLoader(Main.class.getResource("main-menu.fxml"));
-
-        try {
-            Parent root = loader.load();
-
-            Scene scene = new Scene(root);
-            stage.setTitle("Main");
-            stage.setScene(scene);
-            stage.show();
-
-            this.stage.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-            HelperService.showErrorMessage(e.getMessage());
-        }
     }
 }

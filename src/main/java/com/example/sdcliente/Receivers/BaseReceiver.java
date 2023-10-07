@@ -17,6 +17,12 @@ public class BaseReceiver {
         this.action = action;
     }
 
+    public BaseReceiver(String action, String message, boolean error) {
+        this.action = action;
+        this.message = message;
+        this.error = error;
+    }
+
     public BaseReceiver() {
 
     }

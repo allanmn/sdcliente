@@ -39,8 +39,13 @@ public class LoginController {
             try {
                 LoginReceiver res = LoginReceiver.fromJson(response, LoginReceiver.class);
 
-                TokenService.saveJwtToken(res.getData().getToken());
+                if (res.getError()) {
+                    HelperService.showErrorMessage(res.getMessage());
+                } else {
+                    TokenService.saveJwtToken(res.getData().getToken());
 
+                    openMain();
+                }
 
             } catch (JsonProcessingException e) {
                 HelperService.showErrorMessage(e.getMessage());
@@ -49,15 +54,24 @@ public class LoginController {
     }
 
     private void openMain() {
+        Stage stage = new Stage();
+
+        FXMLLoader loader = new FXMLLoader(Main.class.getResource("main-menu.fxml"));
+
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("main-menu.fxml"));
-            Parent root = fxmlLoader.load();
-            Stage stage = new Stage();
-            stage.setScene(new Scene(root));
+            Parent root = loader.load();
+
+            Scene scene = new Scene(root);
             stage.setTitle("Main");
+            stage.setScene(scene);
+
+            Stage old_stage = (Stage) this.txtLogin.getScene().getWindow();
+            old_stage.close();
+
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();
+            HelperService.showErrorMessage(e.getMessage());
         }
     }
 }

@@ -29,27 +29,23 @@ public class SocketService {
 
     public String send(String message) {
         String response = null;
-        try {
-            PrintWriter writer = new PrintWriter(out, true);
-            BufferedReader reader = new BufferedReader(new InputStreamReader(in));
-
-            // Send a message to the server
-            writer.println(message);
-
-            // Receive the response from the server
-            response = reader.readLine();
-            System.out.println("Received response from server: " + response);
-
-            // Close the streams
-            reader.close();
-            writer.close();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-            HelperService.showErrorMessage(e.getMessage());
+        while (true) {
+            try {
+                PrintWriter writer = new PrintWriter(out, true);
+                BufferedReader reader = new BufferedReader(new InputStreamReader(in));
+                // Send a message to the server
+                System.out.println("Sending message to server: " + message);
+                writer.println(message);
+                // Receive the response from the server
+                if((response = reader.readLine()) != null) {
+                    System.out.println("Received response from server: " + response);
+                    return response;
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+                HelperService.showErrorMessage(e.getMessage());
+            }
         }
-
-        return response;
     }
 
     public void close() throws IOException {
