@@ -2,12 +2,14 @@ package com.example.sdcliente.Controllers;
 
 import com.example.sdcliente.Helpers.HelperService;
 import com.example.sdcliente.Receivers.CreateUserReceiver;
+import com.example.sdcliente.Receivers.LoginReceiver;
 import com.example.sdcliente.Senders.Data.UserData;
 import com.example.sdcliente.Senders.UserSender;
 import com.example.sdcliente.Services.TokenService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.stage.Stage;
 
 public class CreateUserController {
 
@@ -53,12 +55,29 @@ public class CreateUserController {
 
         String res = sender.send();
 
-        saveBtn.setDisable(false);
+        if (res != null) {
+            try {
+                CreateUserReceiver response = CreateUserReceiver.fromJson(res, CreateUserReceiver.class);
 
-        try {
-            CreateUserReceiver response = CreateUserReceiver.fromJson(res, CreateUserReceiver.class);
-        } catch (JsonProcessingException e) {
-            HelperService.showErrorMessage(e.getMessage());
+                if (response.getError()) {
+                    HelperService.showErrorMessage(response.getMessage());
+                } else {
+                    Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                    alert.setTitle("Sucesso");
+                    alert.setHeaderText(response.getMessage());
+
+                    alert.showAndWait();
+
+                    Stage stage = (Stage) saveBtn.getScene().getWindow();
+
+                    stage.close();
+                }
+
+            } catch (JsonProcessingException e) {
+                HelperService.showErrorMessage(e.getMessage());
+            }
         }
+
+        saveBtn.setDisable(false);
     }
 }

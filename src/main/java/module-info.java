@@ -5,6 +5,7 @@ module com.example.sdcliente {
     requires com.fasterxml.jackson.core;
     requires com.fasterxml.jackson.databind;
     requires org.apache.commons.codec;
+    requires jjwt.api;
 
 
     opens com.example.sdcliente to javafx.fxml;
@@ -13,5 +14,6 @@ module com.example.sdcliente {
     exports com.example.sdcliente.Senders to com.fasterxml.jackson.databind;
     exports com.example.sdcliente.Receivers.Data to com.fasterxml.jackson.databind;
     exports com.example.sdcliente.Receivers to com.fasterxml.jackson.databind;
+    exports com.example.sdcliente.Models to com.fasterxml.jackson.databind;
     exports com.example.sdcliente;
 }

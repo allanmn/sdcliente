@@ -24,6 +24,8 @@ public class SocketService {
         } catch (IOException e) {
             throw new Exception("Couldn't get I/O for "
                     + "the connection to: " + ip);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
         }
     }
 

@@ -56,9 +56,16 @@ public class LoginController {
     private void openMain() {
         Stage stage = new Stage();
 
-        FXMLLoader loader = new FXMLLoader(Main.class.getResource("main-menu.fxml"));
+        String token = TokenService.getJwtToken();
 
         try {
+            FXMLLoader loader = null;
+            if (TokenService.isAdmin(token)) {
+                loader = new FXMLLoader(Main.class.getResource("main-menu.fxml"));
+            } else {
+                loader = new FXMLLoader(Main.class.getResource("client-main-menu.fxml"));
+            }
+
             Parent root = loader.load();
 
             Scene scene = new Scene(root);
