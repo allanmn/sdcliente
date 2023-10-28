@@ -2,16 +2,22 @@ package com.example.sdcliente.Senders.Data;
 
 import com.example.sdcliente.Helpers.Validators;
 import com.example.sdcliente.Models.Validation.ValidationException;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.apache.commons.codec.digest.DigestUtils;
 
 public class UserData implements BaseData {
     private String token;
+
+    @JsonProperty("name")
     private String nome;
 
+    @JsonProperty("email")
     private String email;
 
+    @JsonProperty("password")
     private String senha;
 
+    @JsonProperty("type")
     private String tipo;
 
     public UserData(String nome, String tipo, String email, String password, String token) {

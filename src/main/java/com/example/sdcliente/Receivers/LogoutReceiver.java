@@ -1,12 +1,12 @@
 package com.example.sdcliente.Receivers;
 
 import com.example.sdcliente.Actions.Actions;
-import com.example.sdcliente.Receivers.Data.LoginData;
+import com.example.sdcliente.Receivers.Data.LogoutData;
 
 public class LogoutReceiver extends BaseReceiver {
 
-    LoginData data;
-    public LogoutReceiver(LoginData data) {
+    LogoutData data;
+    public LogoutReceiver(LogoutData data) {
         super(Actions.LOGOUT);
         this.data = data;
     }
@@ -15,11 +15,11 @@ public class LogoutReceiver extends BaseReceiver {
         super();
     }
 
-    public LoginData getData() {
+    public LogoutData getData() {
         return data;
     }
 
-    public void setData(LoginData data) {
+    public void setData(LogoutData data) {
         this.data = data;
     }
 }

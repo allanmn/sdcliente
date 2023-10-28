@@ -3,16 +3,16 @@ package com.example.sdcliente.Models;
 public class User {
     private long id;
 
-    private String nome;
+    private String name;
 
     private String email;
 
-    private String tipo;
+    private String type;
 
-    public User(String nome, String email, String senha, String tipo) {
-        this.nome = nome;
+    public User(String name, String email, String passoword, String type) {
+        this.name = name;
         this.email = email;
-        this.tipo = tipo;
+        this.type = type;
     }
 
     public User() {}
@@ -33,30 +33,30 @@ public class User {
         this.id = id;
     }
 
-    public String getNome() {
-        return nome;
+    public String getName() {
+        return name;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
+    public void setNome(String name) {
+        this.name = name;
     }
 
 
-    public String getTipo() {
-        return tipo;
+    public String getType() {
+        return type;
     }
 
-    public void setTipo(String tipo) {
-        this.tipo = tipo;
+    public void setType(String tipo) {
+        this.type = tipo;
     }
 
     @Override
     public String toString() {
         return "User{" +
                 "id=" + id +
-                ", nome='" + nome + '\'' +
+                ", nome='" + name + '\'' +
                 ", email='" + email + '\'' +
-                ", tipo='" + tipo + '\'' +
+                ", tipo='" + type + '\'' +
                 '}';
     }
 }

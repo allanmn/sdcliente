@@ -1,24 +1,20 @@
 package com.example.sdcliente.Controllers;
 
 import com.example.sdcliente.Helpers.HelperService;
-import com.example.sdcliente.Main;
 import com.example.sdcliente.Models.User;
+import com.example.sdcliente.Receivers.CreateUserReceiver;
 import com.example.sdcliente.Receivers.ListUsersReceiver;
-import com.example.sdcliente.Receivers.LoginReceiver;
-import com.example.sdcliente.Receivers.LogoutReceiver;
+import com.example.sdcliente.Receivers.RemoveUserReceiver;
 import com.example.sdcliente.Senders.Data.ListUsersData;
-import com.example.sdcliente.Senders.Data.LoginData;
-import com.example.sdcliente.Senders.Data.LogoutData;
+import com.example.sdcliente.Senders.Data.RemoveUserData;
 import com.example.sdcliente.Senders.ListUsersSender;
-import com.example.sdcliente.Senders.LoginSender;
-import com.example.sdcliente.Senders.LogoutSender;
+import com.example.sdcliente.Senders.RemoveUserSender;
 import com.example.sdcliente.Services.TokenService;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
-import javafx.scene.control.MenuItem;
+import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
@@ -28,11 +24,33 @@ import java.util.Objects;
 
 public class ListUsersController {
     @FXML
-    private ListView<HBox> userListView;
+    private TableView<User> userTableView;
+
+    private ObservableList<User> userList;
+
+    @FXML
+    private Button removeBtn;
+
+    @FXML
+    private Button editBtn;
+
+    private User selectedUser;
 
     @FXML
     public void initialize() {
-        // Fetch user data from the database
+        this.userList = FXCollections.observableArrayList();
+
+        this.userTableView.setItems(this.userList);
+
+        this.userTableView.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+            if (newSelection != null) {
+                this.selectedUser = newSelection;
+                this.setButtonsDisabled(false);
+            } else {
+                this.setButtonsDisabled(true);
+            }
+        });
+
         List<User> userList = null;
 
         ListUsersData data = new ListUsersData(TokenService.getJwtToken());
@@ -48,9 +66,7 @@ public class ListUsersController {
                 if (res.getError()) {
                     HelperService.showErrorMessage(res.getMessage());
                 } else {
-                    userList = res.getData().getUsuarios();
-
-                    System.out.println(userList);
+                    userList = res.getData().getUsers();
                 }
 
             } catch (JsonProcessingException e) {
@@ -60,33 +76,49 @@ public class ListUsersController {
 
         // Populate the ListView with user information
         for (User user : userList) {
-            HBox userRow = createUserRow(user);
-            userListView.getItems().add(userRow);
+            this.userTableView.getItems().add(user);
         }
     }
-    private HBox createUserRow(User user) {
-        Label nameLabel = new Label("Name: " + user.getNome());
-        Label emailLabel = new Label("Email: " + user.getEmail());
-        Label typeLabel = new Label("Type: " + (Objects.equals(user.getTipo(), "admin") ? "Admin" : "Common"));
 
-        Button deleteButton = new Button("Delete");
-        Button updateButton = new Button("Update");
-
-        // Set actions for delete and update buttons
-        deleteButton.setOnAction(event -> onDeleteButtonClicked(user));
-        updateButton.setOnAction(event -> onUpdateButtonClicked(user));
-
-        HBox userRow = new HBox(nameLabel, emailLabel, typeLabel, deleteButton, updateButton);
-        userRow.setSpacing(10);
-
-        return userRow;
+    private void setButtonsDisabled(boolean isDisabled) {
+        this.removeBtn.setDisable(isDisabled);
+        this.editBtn.setDisable(isDisabled);
     }
 
-    private void onDeleteButtonClicked(User user) {
-        // Implement delete action here based on the user
+    @FXML
+    private void edit() {
     }
 
-    private void onUpdateButtonClicked(User user) {
-        // Implement update action here based on the user
+    @FXML
+    private void remove() {
+        this.setButtonsDisabled(true);
+
+        RemoveUserData data = new RemoveUserData(TokenService.getJwtToken(), this.selectedUser.getId());
+
+        RemoveUserSender request = new RemoveUserSender(data);
+
+        String res = request.send();
+
+        if (res != null) {
+            try {
+                RemoveUserReceiver response = RemoveUserReceiver.fromJson(res, RemoveUserReceiver.class);
+
+                if (response.getError()) {
+                    HelperService.showErrorMessage(response.getMessage());
+                } else {
+                    Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                    alert.setTitle("Sucesso");
+                    alert.setHeaderText(response.getMessage());
+
+                    alert.showAndWait();
+
+                    userList.remove(this.userTableView.getSelectionModel().getSelectedItem());
+                }
+            } catch (JsonProcessingException e) {
+                HelperService.showErrorMessage(e.getMessage());
+            }
+        }
+
+        this.setButtonsDisabled(false);
     }
 }
