@@ -2,12 +2,13 @@ package com.example.sdcliente.Senders;
 
 import com.example.sdcliente.Actions.Actions;
 import com.example.sdcliente.Senders.Data.BaseData;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class BaseSender {
 
-    private static final ObjectMapper jackson = new ObjectMapper();
+    private static final ObjectMapper jackson = new ObjectMapper().setSerializationInclusion(JsonInclude.Include.ALWAYS);
 
     private String action;
 
@@ -19,7 +20,6 @@ public class BaseSender {
     }
 
     public BaseSender() {
-
     }
 
     public String toJson() throws JsonProcessingException {

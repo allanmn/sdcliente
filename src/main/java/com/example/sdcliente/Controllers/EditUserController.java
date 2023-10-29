@@ -42,7 +42,7 @@ public class EditUserController {
 
     private long userId;
 
-    private String type = "comum";
+    private String type = "user";
 
     public void initialize() {
         // Agrupamento dos radio buttons para permitir seleção única

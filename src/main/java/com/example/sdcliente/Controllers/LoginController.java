@@ -11,6 +11,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
@@ -23,6 +24,9 @@ public class LoginController {
 
     @FXML
     PasswordField txtPassword;
+
+    @FXML
+    Button btnRegister;
 
     public void initialize() {
     }
@@ -74,6 +78,25 @@ public class LoginController {
 
             Stage old_stage = (Stage) this.txtLogin.getScene().getWindow();
             old_stage.close();
+
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            HelperService.showErrorMessage(e.getMessage());
+        }
+    }
+
+    public void openRegister() {
+        Stage stage = new Stage();
+
+        FXMLLoader loader = new FXMLLoader(Main.class.getResource("register-user.fxml"));
+
+        try {
+            Parent root = loader.load();
+
+            Scene scene = new Scene(root);
+            stage.setTitle("Registrar-se");
+            stage.setScene(scene);
 
             stage.show();
         } catch (IOException e) {
