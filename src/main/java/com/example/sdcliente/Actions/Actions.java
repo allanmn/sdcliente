@@ -10,4 +10,8 @@ public final class Actions {
     public static final String LIST_USERS = "listar-usuarios";
 
     public static final String REMOVE_USER = "excluir-usuario";
+
+    public static final String REQUEST_USER = "pedido-edicao-usuario";
+
+    public static final String EDIT_USER = "edicao-usuario";
 }

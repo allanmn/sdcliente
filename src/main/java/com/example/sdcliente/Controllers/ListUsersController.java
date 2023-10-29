@@ -1,6 +1,7 @@
 package com.example.sdcliente.Controllers;
 
 import com.example.sdcliente.Helpers.HelperService;
+import com.example.sdcliente.Main;
 import com.example.sdcliente.Models.User;
 import com.example.sdcliente.Receivers.CreateUserReceiver;
 import com.example.sdcliente.Receivers.ListUsersReceiver;
@@ -14,6 +15,9 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
@@ -38,10 +42,6 @@ public class ListUsersController {
 
     @FXML
     public void initialize() {
-        this.userList = FXCollections.observableArrayList();
-
-        this.userTableView.setItems(this.userList);
-
         this.userTableView.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
             if (newSelection != null) {
                 this.selectedUser = newSelection;
@@ -50,6 +50,15 @@ public class ListUsersController {
                 this.setButtonsDisabled(true);
             }
         });
+
+        getData();
+    }
+
+    public void getData() {
+        this.setButtonsDisabled(true);
+        this.userList = FXCollections.observableArrayList();
+
+        this.userTableView.setItems(this.userList);
 
         List<User> userList = null;
 
@@ -87,6 +96,29 @@ public class ListUsersController {
 
     @FXML
     private void edit() {
+        Stage stage = new Stage();
+
+        FXMLLoader loader = new FXMLLoader(Main.class.getResource("edit-user.fxml"));
+
+        try {
+            Parent root = loader.load();
+
+            EditUserController controller = loader.getController();
+
+            controller.setUserId(this.selectedUser.getId());
+            controller.controller = this;
+
+            Scene scene = new Scene(root);
+            stage.setTitle("Editar usuário");
+            stage.setScene(scene);
+
+            stage.show();
+
+            controller.getData();
+        } catch (IOException e) {
+            e.printStackTrace();
+            HelperService.showErrorMessage(e.getMessage());
+        }
     }
 
     @FXML
