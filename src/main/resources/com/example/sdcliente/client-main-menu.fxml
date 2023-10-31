@@ -11,6 +11,7 @@
         <menus>
          <Menu text="Usuário">
             <items>
+               <MenuItem fx:id="editBtn" onAction="#openEdit" text="Editar" />
                <MenuItem fx:id="logoutBtn" onAction="#logout" text="Sair" />
             </items>
          </Menu>

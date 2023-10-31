@@ -15,5 +15,9 @@ public final class Actions {
 
     public static final String REQUEST_USER = "pedido-edicao-usuario";
 
+    public static final String REQUEST_AUTO_USER = "pedido-proprio-usuario";
+
     public static final String EDIT_USER = "edicao-usuario";
+
+    public static final String REMOVE_SELF_USER = "excluir-proprio-usuario";
 }
