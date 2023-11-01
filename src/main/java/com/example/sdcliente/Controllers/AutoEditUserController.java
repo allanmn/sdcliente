@@ -5,14 +5,8 @@ import com.example.sdcliente.Main;
 import com.example.sdcliente.Models.User;
 import com.example.sdcliente.Models.Validation.ValidationException;
 import com.example.sdcliente.Receivers.*;
-import com.example.sdcliente.Senders.Data.EditUserData;
-import com.example.sdcliente.Senders.Data.RemoveSelfUserData;
-import com.example.sdcliente.Senders.Data.RequestAutoUserData;
-import com.example.sdcliente.Senders.Data.RequestUserData;
-import com.example.sdcliente.Senders.EditUserSender;
-import com.example.sdcliente.Senders.RemoveSelfUserSender;
-import com.example.sdcliente.Senders.RequestAutoUserSender;
-import com.example.sdcliente.Senders.RequestUserSender;
+import com.example.sdcliente.Senders.*;
+import com.example.sdcliente.Senders.Data.*;
 import com.example.sdcliente.Services.TokenService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import javafx.fxml.FXML;
@@ -44,6 +38,8 @@ public class AutoEditUserController {
     @FXML
     PasswordField senhaField;
 
+    private User user;
+
     public void initialize() {
         getData();
     }
@@ -72,6 +68,7 @@ public class AutoEditUserController {
     }
 
     public void setData(User user) {
+        this.user = user;
         this.nomeField.setText(user.getName());
         this.emailField.setText(user.getEmail());
         this.saveBtn.setDisable(false);
@@ -81,6 +78,35 @@ public class AutoEditUserController {
     public void create() {
         this.saveBtn.setDisable(true);
         this.removeBtn.setDisable(true);
+
+        SelfEditUserData data = new SelfEditUserData(this.user.getId(), nomeField.getText(), emailField.getText(), senhaField.getText(), TokenService.getJwtToken());
+
+        SelfEditUserSender sender = new SelfEditUserSender(data);
+
+        String res = sender.send();
+
+        if (res != null) {
+            try {
+                EditUserReceiver response = EditUserReceiver.fromJson(res, EditUserReceiver.class);
+
+                if (response.getError()) {
+                    HelperService.showErrorMessage(response.getMessage());
+                } else {
+                    Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                    alert.setTitle("Sucesso");
+                    alert.setHeaderText(response.getMessage());
+
+                    alert.showAndWait();
+
+                    Stage stage = (Stage) saveBtn.getScene().getWindow();
+
+                    stage.close();
+                }
+
+            } catch (JsonProcessingException e) {
+                HelperService.showErrorMessage(e.getMessage());
+            }
+        }
 
         saveBtn.setDisable(false);
         this.removeBtn.setDisable(false);

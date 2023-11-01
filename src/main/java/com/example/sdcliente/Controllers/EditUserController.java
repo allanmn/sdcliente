@@ -98,8 +98,6 @@ public class EditUserController {
 
         EditUserData data = new EditUserData(this.getUserId(), nomeField.getText(), type, emailField.getText(), senhaField.getText(), TokenService.getJwtToken());
 
-
-
         EditUserSender sender = new EditUserSender(data);
 
         String res = sender.send();
