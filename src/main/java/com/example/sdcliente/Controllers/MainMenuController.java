@@ -41,6 +41,46 @@ public class MainMenuController {
     }
 
     @FXML
+    public void openCreatePoint() {
+        Stage stage = new Stage();
+
+        FXMLLoader loader = new FXMLLoader(Main.class.getResource("create-point.fxml"));
+
+        try {
+            Parent root = loader.load();
+
+            Scene scene = new Scene(root);
+            stage.setTitle("Criar Ponto");
+            stage.setScene(scene);
+
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            HelperService.showErrorMessage(e.getMessage());
+        }
+    }
+
+    @FXML
+    public void openPoints() {
+        Stage stage = new Stage();
+
+        FXMLLoader loader = new FXMLLoader(Main.class.getResource("list-points.fxml"));
+
+        try {
+            Parent root = loader.load();
+
+            Scene scene = new Scene(root);
+            stage.setTitle("Listar pontos");
+            stage.setScene(scene);
+
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            HelperService.showErrorMessage(e.getMessage());
+        }
+    }
+
+    @FXML
     public void openUsers() {
         Stage stage = new Stage();
 

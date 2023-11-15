@@ -5,7 +5,7 @@
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.sdcliente.Controllers.MainMenuController">
+<VBox prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.sdcliente.Controllers.MainMenuController">
 
     <MenuBar>
         <menus>
@@ -15,6 +15,12 @@
                     <MenuItem onAction="#openUsers" text="Listar" />
                 </items>
             </Menu>
+         <Menu text="Pontos">
+            <items>
+               <MenuItem onAction="#openCreatePoint" text="Criar" />
+               <MenuItem onAction="#openPoints" text="Listar" />
+            </items>
+         </Menu>
          <Menu text="Usuário">
             <items>
                <MenuItem fx:id="logoutBtn" onAction="#logout" text="Sair" />

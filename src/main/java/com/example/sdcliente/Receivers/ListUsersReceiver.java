@@ -8,7 +8,7 @@ public class ListUsersReceiver extends BaseReceiver {
     private ListUsersData data = null;
 
     public ListUsersReceiver(String message, boolean error, ListUsersData data) {
-        super(Actions.CAD_USER, message, error);
+        super(Actions.LIST_USERS, message, error);
 
         this.data = data;
     }
