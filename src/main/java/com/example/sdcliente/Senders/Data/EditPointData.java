@@ -2,6 +2,7 @@ package com.example.sdcliente.Senders.Data;
 
 import com.example.sdcliente.Helpers.Validators;
 import com.example.sdcliente.Models.Validation.ValidationException;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.apache.commons.codec.digest.DigestUtils;
 
@@ -11,6 +12,7 @@ public class EditPointData implements BaseData {
     @JsonProperty("name")
     private String nome;
 
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private String obs;
 
     @JsonProperty("ponto_id")

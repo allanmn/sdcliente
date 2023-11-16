@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.VBox?>
 
 <VBox alignment="CENTER" prefHeight="400.0" prefWidth="600.0" spacing="20.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.sdcliente.Controllers.CreatePointController">
-    <Label style="-fx-font-size: 24px;" text="Cadastro de Usuário" />
+    <Label style="-fx-font-size: 24px;" text="Cadastro de Ponto" />
     <TextField fx:id="nomeField" promptText="Nome" style="-fx-prompt-text-fill: gray;" />
    <TextArea fx:id="obsField" prefHeight="200.0" prefWidth="200.0" promptText="Observações" />
    <HBox alignment="CENTER_LEFT">

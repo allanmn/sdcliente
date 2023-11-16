@@ -81,6 +81,46 @@ public class MainMenuController {
     }
 
     @FXML
+    public void openCreateSegment() {
+        Stage stage = new Stage();
+
+        FXMLLoader loader = new FXMLLoader(Main.class.getResource("create-segment.fxml"));
+
+        try {
+            Parent root = loader.load();
+
+            Scene scene = new Scene(root);
+            stage.setTitle("Criar Segmento");
+            stage.setScene(scene);
+
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            HelperService.showErrorMessage(e.getMessage());
+        }
+    }
+
+    @FXML
+    public void openSegment() {
+        Stage stage = new Stage();
+
+        FXMLLoader loader = new FXMLLoader(Main.class.getResource("list-segments.fxml"));
+
+        try {
+            Parent root = loader.load();
+
+            Scene scene = new Scene(root);
+            stage.setTitle("Listar segmentos");
+            stage.setScene(scene);
+
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            HelperService.showErrorMessage(e.getMessage());
+        }
+    }
+
+    @FXML
     public void openUsers() {
         Stage stage = new Stage();
 

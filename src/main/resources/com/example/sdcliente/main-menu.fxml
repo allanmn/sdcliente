@@ -21,6 +21,12 @@
                <MenuItem onAction="#openPoints" text="Listar" />
             </items>
          </Menu>
+         <Menu text="Segmentos">
+            <items>
+               <MenuItem onAction="#openCreateSegment" text="Criar" />
+               <MenuItem onAction="#openPoints" text="Listar" />
+            </items>
+         </Menu>
          <Menu text="Usuário">
             <items>
                <MenuItem fx:id="logoutBtn" onAction="#logout" text="Sair" />
