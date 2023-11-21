@@ -3,13 +3,13 @@ package com.example.sdcliente.Controllers;
 import com.example.sdcliente.Helpers.HelperService;
 import com.example.sdcliente.Models.Point;
 import com.example.sdcliente.Models.Segment;
-import com.example.sdcliente.Receivers.CreatePointReceiver;
-import com.example.sdcliente.Receivers.CreateSegmentReceiver;
+import com.example.sdcliente.Models.User;
+import com.example.sdcliente.Receivers.EditUserReceiver;
 import com.example.sdcliente.Receivers.ListPointsReceiver;
-import com.example.sdcliente.Senders.Data.ListPointsData;
-import com.example.sdcliente.Senders.Data.SegmentData;
-import com.example.sdcliente.Senders.ListPointsSender;
-import com.example.sdcliente.Senders.SegmentSender;
+import com.example.sdcliente.Receivers.RequestSegmentReceiver;
+import com.example.sdcliente.Receivers.RequestUserReceiver;
+import com.example.sdcliente.Senders.*;
+import com.example.sdcliente.Senders.Data.*;
 import com.example.sdcliente.Services.TokenService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import javafx.collections.FXCollections;
@@ -20,8 +20,13 @@ import javafx.stage.Stage;
 import javafx.util.StringConverter;
 
 import java.util.List;
+import java.util.Objects;
 
-public class CreateSegmentController {
+public class EditSegmentController {
+
+    public ListSegmentsController controller;
+
+    public long segmentId;
 
     public TextField txtDistancia;
     public TextArea txtObs;
@@ -75,11 +80,9 @@ public class CreateSegmentController {
         });
         this.selectOrigem.setItems(options);
         this.selectDestino.setItems(options);
-
-        getPoints();
     }
 
-    private void getPoints() {
+    public void getPoints() {
         List<Point> pointList = null;
 
         ListPointsData senderData = new ListPointsData(TokenService.getJwtToken());
@@ -96,6 +99,7 @@ public class CreateSegmentController {
                     HelperService.showErrorMessage(res.getMessage());
                 } else {
                     pointList = res.getData().getPoints();
+                    getData();
                 }
 
             } catch (JsonProcessingException e) {
@@ -107,20 +111,53 @@ public class CreateSegmentController {
         this.options.addAll(pointList);
     }
 
+    public void getData() {
+        RequestSegmentData data = new RequestSegmentData(TokenService.getJwtToken(), this.segmentId);
+
+        RequestSegmentSender request = new RequestSegmentSender(data);
+
+        String res = request.send();
+
+        if (res != null) {
+            try {
+                RequestSegmentReceiver response = RequestSegmentReceiver.fromJson(res, RequestSegmentReceiver.class);
+
+                if (response.getError()) {
+                    HelperService.showErrorMessage(response.getMessage());
+                } else {
+                    setData(response.getData().getSegment());
+                }
+
+            } catch (JsonProcessingException e) {
+                HelperService.showErrorMessage(e.getMessage());
+            }
+        }
+    }
+
+    public void setData(Segment segment) {
+        this.txtDistancia.setText(segment.getDistancia());
+        this.txtDirecao.setText(segment.getDirecao());
+        this.txtObs.setText(segment.getObs());
+        this.selectDestino.getSelectionModel().select(segment.getPontoDestino());
+        this.selectOrigem.getSelectionModel().select(segment.getPontoOrigem());
+
+        this.saveBtn.setDisable(false);
+    }
+
     public void create() {
-        saveBtn.setDisable(true);
+        this.saveBtn.setDisable(true);
 
-        Segment segmento = new Segment(this.selectedDestino, this.selectedOrigem, this.txtDirecao.getText(), this.txtDistancia.getText(), this.txtObs.getText());
+        Segment segment = new Segment(this.selectedDestino, this.selectedOrigem, this.txtDirecao.getText(), this.txtDistancia.getText(), this.txtObs.getText());
 
-        SegmentData senderData = new SegmentData(segmento, TokenService.getJwtToken());
+        EditSegmentData data = new EditSegmentData(this.getSegmentId(), segment, TokenService.getJwtToken());
 
-        SegmentSender sender = new SegmentSender(senderData);
+        EditSegmentSender sender = new EditSegmentSender(data);
 
         String res = sender.send();
 
         if (res != null) {
             try {
-                CreateSegmentReceiver response = CreateSegmentReceiver.fromJson(res, CreateSegmentReceiver.class);
+                EditUserReceiver response = EditUserReceiver.fromJson(res, EditUserReceiver.class);
 
                 if (response.getError()) {
                     HelperService.showErrorMessage(response.getMessage());
@@ -134,6 +171,8 @@ public class CreateSegmentController {
                     Stage stage = (Stage) saveBtn.getScene().getWindow();
 
                     stage.close();
+
+                    controller.getData();
                 }
 
             } catch (JsonProcessingException e) {
@@ -142,5 +181,13 @@ public class CreateSegmentController {
         }
 
         saveBtn.setDisable(false);
+    }
+
+    public long getSegmentId() {
+        return segmentId;
+    }
+
+    public void setSegmentId(long segmentId) {
+        this.segmentId = segmentId;
     }
 }

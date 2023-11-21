@@ -13,19 +13,27 @@ public final class Actions {
 
     public static final String LIST_USERS = "listar-usuarios";
 
+    public static final String LIST_SEGMENTS = "listar-segmentos";
+
     public static final String LIST_POINTS = "listar-pontos";
 
     public static final String REMOVE_USER = "excluir-usuario";
 
+    public static final String REMOVE_SEGMENT = "excluir-segmento";
+
     public static final String REMOVE_POINT = "excluir-ponto";
 
     public static final String REQUEST_USER = "pedido-edicao-usuario";
+
+    public static final String REQUEST_SEGMENT = "pedido-edicao-segmento";
 
     public static final String REQUEST_POINT = "pedido-edicao-ponto";
 
     public static final String REQUEST_AUTO_USER = "pedido-proprio-usuario";
 
     public static final String EDIT_USER = "edicao-usuario";
+
+    public static final String EDIT_SEGMENT = "edicao-segmento";
 
     public static final String EDIT_POINT = "edicao-ponto";
 

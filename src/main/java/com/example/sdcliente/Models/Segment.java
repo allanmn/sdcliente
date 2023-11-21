@@ -19,6 +19,7 @@ public class Segment {
 
     private String distancia;
 
+    @JsonInclude(JsonInclude.Include.ALWAYS)
     private String obs;
 
     public Segment(Point pontoDestino, Point pontoOrigem, String direcao, String distancia, String obs) {

@@ -1,10 +1,13 @@
 package com.example.sdcliente.Models;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 public class Point {
     private long id;
 
     private String name;
 
+    @JsonInclude(JsonInclude.Include.ALWAYS)
     private String obs;
 
     public Point(String nome, String obs) {
@@ -36,5 +39,10 @@ public class Point {
 
     public void setObs(String obs) {
         this.obs = obs;
+    }
+
+    @Override
+    public String toString() {
+        return this.name;
     }
 }

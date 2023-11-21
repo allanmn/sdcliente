@@ -24,7 +24,7 @@
          <Menu text="Segmentos">
             <items>
                <MenuItem onAction="#openCreateSegment" text="Criar" />
-               <MenuItem onAction="#openPoints" text="Listar" />
+               <MenuItem onAction="#openSegments" text="Listar" />
             </items>
          </Menu>
          <Menu text="Usuário">

@@ -101,7 +101,7 @@ public class MainMenuController {
     }
 
     @FXML
-    public void openSegment() {
+    public void openSegments() {
         Stage stage = new Stage();
 
         FXMLLoader loader = new FXMLLoader(Main.class.getResource("list-segments.fxml"));
