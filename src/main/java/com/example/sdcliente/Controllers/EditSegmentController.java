@@ -135,7 +135,7 @@ public class EditSegmentController {
     }
 
     public void setData(Segment segment) {
-        this.txtDistancia.setText(segment.getDistancia());
+        this.txtDistancia.setText(String.valueOf(segment.getDistancia()));
         this.txtDirecao.setText(segment.getDirecao());
         this.txtObs.setText(segment.getObs());
         this.selectDestino.getSelectionModel().select(segment.getPontoDestino());
@@ -147,7 +147,14 @@ public class EditSegmentController {
     public void create() {
         this.saveBtn.setDisable(true);
 
-        Segment segment = new Segment(this.selectedDestino, this.selectedOrigem, this.txtDirecao.getText(), this.txtDistancia.getText(), this.txtObs.getText());
+        try {
+            Integer.parseInt(this.txtDistancia.getText());
+        } catch (Exception ex) {
+            HelperService.showErrorMessage("Distância deve ser inteiro.");
+            return;
+        }
+
+        Segment segment = new Segment(this.selectedDestino, this.selectedOrigem, this.txtDirecao.getText(), Integer.parseInt(this.txtDistancia.getText()), this.txtObs.getText());
 
         EditSegmentData data = new EditSegmentData(this.getSegmentId(), segment, TokenService.getJwtToken());
 

@@ -110,7 +110,14 @@ public class CreateSegmentController {
     public void create() {
         saveBtn.setDisable(true);
 
-        Segment segmento = new Segment(this.selectedDestino, this.selectedOrigem, this.txtDirecao.getText(), this.txtDistancia.getText(), this.txtObs.getText());
+        try {
+            Integer.parseInt(this.txtDistancia.getText());
+        } catch (Exception ex) {
+            HelperService.showErrorMessage("Distância deve ser inteiro.");
+            return;
+        }
+
+        Segment segmento = new Segment(this.selectedDestino, this.selectedOrigem, this.txtDirecao.getText(), Integer.parseInt(this.txtDistancia.getText()), this.txtObs.getText());
 
         SegmentData senderData = new SegmentData(segmento, TokenService.getJwtToken());
 

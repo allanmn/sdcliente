@@ -17,12 +17,12 @@ public class Segment {
 
     private String direcao;
 
-    private String distancia;
+    private int distancia;
 
     @JsonInclude(JsonInclude.Include.ALWAYS)
     private String obs;
 
-    public Segment(Point pontoDestino, Point pontoOrigem, String direcao, String distancia, String obs) {
+    public Segment(Point pontoDestino, Point pontoOrigem, String direcao, int distancia, String obs) {
         this.pontoDestino = pontoDestino;
         this.pontoOrigem = pontoOrigem;
         this.direcao = direcao;
@@ -54,7 +54,7 @@ public class Segment {
         return direcao;
     }
 
-    public String getDistancia() {
+    public int getDistancia() {
         return distancia;
     }
 
@@ -70,7 +70,7 @@ public class Segment {
         this.direcao = direcao;
     }
 
-    public void setDistancia(String distancia) {
+    public void setDistancia(int distancia) {
         this.distancia = distancia;
     }
 

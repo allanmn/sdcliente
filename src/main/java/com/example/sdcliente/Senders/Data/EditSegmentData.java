@@ -40,13 +40,13 @@ public class EditSegmentData implements BaseData {
             throw  new ValidationException("Direção é obrigatório");
         }
 
-        if (segment.getDistancia() == null || segment.getDistancia().isEmpty()) {
-            throw  new ValidationException("Distância é obrigatório");
+        if (segment.getDistancia() == 0) {
+            throw  new ValidationException("Distância é obrigatório e não pode ser 0");
         }
 
-        if (segmentId == 0) {
-            throw  new ValidationException("ID do segmento é obrigatório");
-        }
+        //if (segmentId == 0) {
+          //  throw  new ValidationException("ID do segmento é obrigatório");
+        //}
 
         return true;
     }
