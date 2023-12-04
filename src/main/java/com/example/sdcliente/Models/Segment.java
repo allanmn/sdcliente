@@ -29,7 +29,7 @@ public class Segment {
         this.pontoOrigem = pontoOrigem;
         this.direcao = direcao;
         this.distancia = distancia;
-        if (!obs.isEmpty()) {
+        if (obs != null && !obs.isEmpty()) {
             this.obs = obs;
         }
         this.bloqueado = bloqueado;

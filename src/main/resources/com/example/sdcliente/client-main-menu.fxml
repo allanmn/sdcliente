@@ -15,6 +15,11 @@
                <MenuItem fx:id="logoutBtn" onAction="#logout" text="Sair" />
             </items>
          </Menu>
+            <Menu text="Rotas">
+                <items>
+                    <MenuItem fx:id="createRoute" onAction="#openRoute" text="Criar Rota" />
+                </items>
+            </Menu>
         </menus>
     </MenuBar>
 

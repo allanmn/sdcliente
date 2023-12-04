@@ -29,6 +29,8 @@ public final class Actions {
 
     public static final String REQUEST_POINT = "pedido-edicao-ponto";
 
+    public static final String REQUEST_ROUTE = "pedido-rotas";
+
     public static final String REQUEST_AUTO_USER = "pedido-proprio-usuario";
 
     public static final String EDIT_USER = "edicao-usuario";
