@@ -12,6 +12,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
+<?import javafx.scene.control.RadioButton?>
 <VBox alignment="CENTER" prefHeight="400.0" prefWidth="600.0" spacing="20.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.sdcliente.Controllers.EditSegmentController">
     <Label style="-fx-font-size: 24px;" text="Cadastro de Segmento" />
    <GridPane prefHeight="60.0" prefWidth="500.0">
@@ -35,6 +36,31 @@
          </ChoiceBox>
       </children>
    </GridPane>
+    <GridPane>
+        <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+            <RowConstraints />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+        <children>
+            <Label text="Bloqueado" GridPane.rowIndex="1">
+                <GridPane.margin>
+                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                </GridPane.margin>
+            </Label>
+            <RadioButton fx:id="radioBlocked" mnemonicParsing="false" text="Não" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                <GridPane.margin>
+                    <Insets top="5.0" />
+                </GridPane.margin>
+            </RadioButton>
+        </children>
+        <VBox.margin>
+            <Insets top="10.0" />
+        </VBox.margin>
+    </GridPane>
    <TextField fx:id="txtDirecao" promptText="Direção" />
    <TextField fx:id="txtDistancia" promptText="Distância" />
    <TextArea fx:id="txtObs" prefHeight="200.0" prefWidth="200.0" promptText="Obs" />

@@ -12,6 +12,7 @@ import com.example.sdcliente.Senders.*;
 import com.example.sdcliente.Senders.Data.*;
 import com.example.sdcliente.Services.TokenService;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -42,6 +43,8 @@ public class EditSegmentController {
     Point selectedDestino;
 
     Point selectedOrigem;
+
+    public RadioButton radioBlocked;
 
     ObservableList<Point> options = FXCollections.observableArrayList();
 
@@ -78,6 +81,15 @@ public class EditSegmentController {
         this.selectOrigem.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
             this.selectedOrigem = newSelection;
         });
+
+        this.radioBlocked.selectedProperty().addListener((ObservableValue<? extends Boolean> obs, Boolean wasPreviouslySelected, Boolean isNowSelected) -> {
+            if (isNowSelected) {
+                this.radioBlocked.setText("Sim");
+            } else {
+                this.radioBlocked.setText("Não");
+            }
+        });
+
         this.selectOrigem.setItems(options);
         this.selectDestino.setItems(options);
     }
@@ -140,6 +152,7 @@ public class EditSegmentController {
         this.txtObs.setText(segment.getObs());
         this.selectDestino.getSelectionModel().select(segment.getPontoDestino());
         this.selectOrigem.getSelectionModel().select(segment.getPontoOrigem());
+        this.radioBlocked.setSelected(segment.getBloqueado());
 
         this.saveBtn.setDisable(false);
     }
@@ -154,7 +167,7 @@ public class EditSegmentController {
             return;
         }
 
-        Segment segment = new Segment(this.selectedDestino, this.selectedOrigem, this.txtDirecao.getText(), Integer.parseInt(this.txtDistancia.getText()), this.txtObs.getText());
+        Segment segment = new Segment(this.selectedDestino, this.selectedOrigem, this.txtDirecao.getText(), Integer.parseInt(this.txtDistancia.getText()), this.txtObs.getText(), this.radioBlocked.isSelected());
 
         EditSegmentData data = new EditSegmentData(this.getSegmentId(), segment, TokenService.getJwtToken());
 

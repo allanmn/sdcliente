@@ -3,7 +3,6 @@ package com.example.sdcliente.Controllers;
 import com.example.sdcliente.Helpers.HelperService;
 import com.example.sdcliente.Models.Point;
 import com.example.sdcliente.Models.Segment;
-import com.example.sdcliente.Receivers.CreatePointReceiver;
 import com.example.sdcliente.Receivers.CreateSegmentReceiver;
 import com.example.sdcliente.Receivers.ListPointsReceiver;
 import com.example.sdcliente.Senders.Data.ListPointsData;
@@ -12,6 +11,8 @@ import com.example.sdcliente.Senders.ListPointsSender;
 import com.example.sdcliente.Senders.SegmentSender;
 import com.example.sdcliente.Services.TokenService;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -26,6 +27,8 @@ public class CreateSegmentController {
     public TextField txtDistancia;
     public TextArea txtObs;
     public ChoiceBox<Point> selectDestino;
+
+    public RadioButton radioBlocked;
 
     public ChoiceBox<Point> selectOrigem;
     @FXML
@@ -76,6 +79,14 @@ public class CreateSegmentController {
         this.selectOrigem.setItems(options);
         this.selectDestino.setItems(options);
 
+        this.radioBlocked.selectedProperty().addListener((ObservableValue<? extends Boolean> obs, Boolean wasPreviouslySelected, Boolean isNowSelected) -> {
+            if (isNowSelected) {
+                this.radioBlocked.setText("Sim");
+            } else {
+                this.radioBlocked.setText("Não");
+            }
+        });
+
         getPoints();
     }
 
@@ -117,7 +128,7 @@ public class CreateSegmentController {
             return;
         }
 
-        Segment segmento = new Segment(this.selectedDestino, this.selectedOrigem, this.txtDirecao.getText(), Integer.parseInt(this.txtDistancia.getText()), this.txtObs.getText());
+        Segment segmento = new Segment(this.selectedDestino, this.selectedOrigem, this.txtDirecao.getText(), Integer.parseInt(this.txtDistancia.getText()), this.txtObs.getText(), this.radioBlocked.isSelected());
 
         SegmentData senderData = new SegmentData(segmento, TokenService.getJwtToken());
 

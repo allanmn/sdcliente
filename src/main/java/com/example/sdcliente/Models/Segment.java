@@ -19,10 +19,12 @@ public class Segment {
 
     private int distancia;
 
+    private boolean bloqueado;
+
     @JsonInclude(JsonInclude.Include.ALWAYS)
     private String obs;
 
-    public Segment(Point pontoDestino, Point pontoOrigem, String direcao, int distancia, String obs) {
+    public Segment(Point pontoDestino, Point pontoOrigem, String direcao, int distancia, String obs, boolean bloqueado) {
         this.pontoDestino = pontoDestino;
         this.pontoOrigem = pontoOrigem;
         this.direcao = direcao;
@@ -30,6 +32,7 @@ public class Segment {
         if (!obs.isEmpty()) {
             this.obs = obs;
         }
+        this.bloqueado = bloqueado;
     }
 
     public Segment() {}
@@ -80,5 +83,13 @@ public class Segment {
 
     public void setPontoOrigem(Point pontoOrigem) {
         this.pontoOrigem = pontoOrigem;
+    }
+
+    public void setBloqueado(boolean bloqueado) {
+        this.bloqueado = bloqueado;
+    }
+
+    public boolean getBloqueado () {
+        return this.bloqueado;
     }
 }
