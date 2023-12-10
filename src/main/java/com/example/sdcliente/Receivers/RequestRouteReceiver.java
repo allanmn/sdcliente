@@ -1,28 +1,33 @@
 package com.example.sdcliente.Receivers;
 
 import com.example.sdcliente.Actions.Actions;
+import com.example.sdcliente.Models.Segment;
 import com.example.sdcliente.Receivers.Data.RequestRouteData;
 import com.example.sdcliente.Receivers.Data.RequestSegmentData;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import java.util.List;
 
 public class RequestRouteReceiver extends BaseReceiver {
 
-    private RequestRouteData data = null;
+    @JsonProperty("segmentos")
+    List<Segment> segments = null;
 
-    public RequestRouteReceiver(String message, boolean error, RequestRouteData data) {
+    public RequestRouteReceiver(String message, boolean error, List<Segment> segments) {
         super(Actions.REQUEST_ROUTE, message, error);
 
-        this.data = data;
+        this.segments = segments;
     }
 
     public RequestRouteReceiver() {
         super();
     }
 
-    public RequestRouteData getData() {
-        return data;
+    public List<Segment> getSegments() {
+        return segments;
     }
 
-    public void setData(RequestRouteData data) {
-        this.data = data;
+    public void setSegments(List<Segment> segments) {
+        this.segments = segments;
     }
 }

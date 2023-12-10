@@ -14,21 +14,31 @@ import com.example.sdcliente.Senders.RouteSender;
 import com.example.sdcliente.Senders.SegmentSender;
 import com.example.sdcliente.Services.TokenService;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 import javafx.util.StringConverter;
 
 import java.util.List;
 
 public class CreateRouteController {
 
+    @FXML
+    private TableView<Segment> segmentTableView;
+
+    private ObservableList<Segment> segmentsList;
+
     public ChoiceBox<Point> selectDestino;
 
     public ChoiceBox<Point> selectOrigem;
+
+    @FXML
+    private TableColumn<Segment, String> stageColumn;
 
     @FXML
     Button saveBtn;
@@ -44,6 +54,23 @@ public class CreateRouteController {
     ObservableList<Point> options = FXCollections.observableArrayList();
 
     public void initialize() {
+        stageColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Segment, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TableColumn.CellDataFeatures<Segment, String> segmentStringCellDataFeatures) {
+                Segment segment = segmentStringCellDataFeatures.getValue();
+                List<Segment> items = segmentTableView.getItems();
+
+                if (segment.equals(items.get(0))) {
+                    return new SimpleStringProperty("Início");
+                }
+                if (segment.equals(items.get(items.size() - 1))) {
+                    return new SimpleStringProperty("Fim");
+                }
+
+                return new SimpleStringProperty("");
+            }
+        });
+
         selectDestino.setConverter(new StringConverter<Point>() {
             @Override
             public String toString(Point object) {
@@ -119,6 +146,12 @@ public class CreateRouteController {
     public void create() {
         saveBtn.setDisable(true);
 
+        this.segmentsList = FXCollections.observableArrayList();
+
+        this.segmentTableView.setItems(this.segmentsList);
+
+        List<Segment> segmentsList = null;
+
         RouteData senderData = new RouteData(this.selectedOrigem, this.selectedDestino);
 
         RouteSender sender = new RouteSender(senderData);
@@ -132,15 +165,12 @@ public class CreateRouteController {
                 if (response.getError()) {
                     HelperService.showErrorMessage(response.getMessage());
                 } else {
-                    Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-                    alert.setTitle("Sucesso");
-                    alert.setHeaderText(response.getMessage());
+                    segmentsList = response.getSegments();
 
-                    alert.showAndWait();
-
-                    Stage stage = (Stage) saveBtn.getScene().getWindow();
-
-                    stage.close();
+                    assert segmentsList != null;
+                    for (Segment segment : segmentsList) {
+                        this.segmentTableView.getItems().add(segment);
+                    }
                 }
 
             } catch (JsonProcessingException e) {
