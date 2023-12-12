@@ -1,6 +1,7 @@
 package com.example.sdcliente.Receivers;
 
 import com.example.sdcliente.Actions.Actions;
+import com.example.sdcliente.Models.RouteSegment;
 import com.example.sdcliente.Models.Segment;
 import com.example.sdcliente.Receivers.Data.RequestRouteData;
 import com.example.sdcliente.Receivers.Data.RequestSegmentData;
@@ -11,9 +12,9 @@ import java.util.List;
 public class RequestRouteReceiver extends BaseReceiver {
 
     @JsonProperty("segmentos")
-    List<Segment> segments = null;
+    List<RouteSegment> segments = null;
 
-    public RequestRouteReceiver(String message, boolean error, List<Segment> segments) {
+    public RequestRouteReceiver(String message, boolean error, List<RouteSegment> segments) {
         super(Actions.REQUEST_ROUTE, message, error);
 
         this.segments = segments;
@@ -23,11 +24,11 @@ public class RequestRouteReceiver extends BaseReceiver {
         super();
     }
 
-    public List<Segment> getSegments() {
+    public List<RouteSegment> getSegments() {
         return segments;
     }
 
-    public void setSegments(List<Segment> segments) {
+    public void setSegments(List<RouteSegment> segments) {
         this.segments = segments;
     }
 }

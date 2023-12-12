@@ -2,16 +2,13 @@ package com.example.sdcliente.Controllers;
 
 import com.example.sdcliente.Helpers.HelperService;
 import com.example.sdcliente.Models.Point;
-import com.example.sdcliente.Models.Segment;
-import com.example.sdcliente.Receivers.CreateSegmentReceiver;
+import com.example.sdcliente.Models.RouteSegment;
 import com.example.sdcliente.Receivers.ListPointsReceiver;
 import com.example.sdcliente.Receivers.RequestRouteReceiver;
 import com.example.sdcliente.Senders.Data.ListPointsData;
 import com.example.sdcliente.Senders.Data.RouteData;
-import com.example.sdcliente.Senders.Data.SegmentData;
 import com.example.sdcliente.Senders.ListPointsSender;
 import com.example.sdcliente.Senders.RouteSender;
-import com.example.sdcliente.Senders.SegmentSender;
 import com.example.sdcliente.Services.TokenService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import javafx.beans.property.SimpleStringProperty;
@@ -20,7 +17,6 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.stage.Stage;
 import javafx.util.Callback;
 import javafx.util.StringConverter;
 
@@ -29,16 +25,16 @@ import java.util.List;
 public class CreateRouteController {
 
     @FXML
-    private TableView<Segment> segmentTableView;
+    private TableView<RouteSegment> segmentTableView;
 
-    private ObservableList<Segment> segmentsList;
+    private ObservableList<RouteSegment> segmentsList;
 
     public ChoiceBox<Point> selectDestino;
 
     public ChoiceBox<Point> selectOrigem;
 
     @FXML
-    private TableColumn<Segment, String> stageColumn;
+    private TableColumn<RouteSegment, String> stageColumn;
 
     @FXML
     Button saveBtn;
@@ -54,11 +50,11 @@ public class CreateRouteController {
     ObservableList<Point> options = FXCollections.observableArrayList();
 
     public void initialize() {
-        stageColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Segment, String>, ObservableValue<String>>() {
+        stageColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<RouteSegment, String>, ObservableValue<String>>() {
             @Override
-            public ObservableValue<String> call(TableColumn.CellDataFeatures<Segment, String> segmentStringCellDataFeatures) {
-                Segment segment = segmentStringCellDataFeatures.getValue();
-                List<Segment> items = segmentTableView.getItems();
+            public ObservableValue<String> call(TableColumn.CellDataFeatures<RouteSegment, String> segmentStringCellDataFeatures) {
+                RouteSegment segment = segmentStringCellDataFeatures.getValue();
+                List<RouteSegment> items = segmentTableView.getItems();
 
                 if (segment.equals(items.get(0))) {
                     return new SimpleStringProperty("Início");
@@ -150,7 +146,7 @@ public class CreateRouteController {
 
         this.segmentTableView.setItems(this.segmentsList);
 
-        List<Segment> segmentsList = null;
+        List<RouteSegment> segmentsList = null;
 
         RouteData senderData = new RouteData(this.selectedOrigem, this.selectedDestino);
 
@@ -168,7 +164,7 @@ public class CreateRouteController {
                     segmentsList = response.getSegments();
 
                     assert segmentsList != null;
-                    for (Segment segment : segmentsList) {
+                    for (RouteSegment segment : segmentsList) {
                         this.segmentTableView.getItems().add(segment);
                     }
                 }
